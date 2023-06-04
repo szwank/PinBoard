@@ -97,7 +97,7 @@ DATABASES = {
         "NAME": env("PG_DB", default="postgres"),
         "USER": env("PG_USER", default="postgres"),
         "PASSWORD": env("PG_PASSWORD", default="postgres"),
-        "HOST": env("PG_HOST", default="postgres"),
+        "HOST": env("PG_HOST", default="localhost"),
         "PORT": env("PG_PORT", default="5432"),
     }
 }
@@ -121,6 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = "users.User"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
