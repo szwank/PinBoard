@@ -8,6 +8,10 @@ from django.utils.translation import (
     gettext_lazy as _,
 )
 
+from users.managers import (
+    UserManager,
+)
+
 
 class User(AbstractUser):
     """Custom user model"""
@@ -30,3 +34,5 @@ class User(AbstractUser):
             "Unselect this instead of deleting accounts."
         ),
     )
+
+    objects = UserManager()
