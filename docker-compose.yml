@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+
+  postgres:
+    image: postgres:15.3
+    restart: on-failure
+    volumes:
+      - "postgres_data:/var/lib/postgresql/data/"
+    environment:
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_DB=${PG_DB}
+      - POSTGRES_PORT=${PG_PORT}
+      - POSTGRES_USER=${PG_USER}
+    ports:
+      - 5432:5432
+    networks:
+      - proxynet
+
+volumes:
+  postgres_data:
+
+networks:
+  proxynet:
+    name: pinboard-network

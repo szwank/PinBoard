@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
 from pathlib import (
     Path,
 )
@@ -17,12 +16,13 @@ from typing import (
     List,
 )
 
-from PinBoard.utils import (
-    get_env_variable,
-)
+import environ
+
+env = environ.Env()
+env.read_env(".env")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parents[2]
 
 
 # Quick-start development settings - unsuitable for production
@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "rest_framework_swagger",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
@@ -86,12 +86,12 @@ WSGI_APPLICATION = "PinBoard.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
-        "USER": get_env_variable("POSTGRES_USER"),
-        "PASSWORD": get_env_variable("POSTGRES_PASSWORD"),
-        "HOST": "localhost",
-        "PORT": "5433",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": env("PG_DB", default="postgres"),
+        "USER": env("PG_USER", default="postgres"),
+        "PASSWORD": env("PG_PASSWORD", default="postgres"),
+        "HOST": env("PG_HOST", default="postgres"),
+        "PORT": env("PG_PORT", default="5432"),
     }
 }
 
@@ -130,7 +130,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
