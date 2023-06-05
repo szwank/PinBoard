@@ -26,3 +26,19 @@ class Task(DatesModelMixin):
     title = models.CharField(max_length=100)
     description = models.TextField()
     status = models.CharField(max_length=20, choices=StatusType.choices)
+    epic = models.ForeignKey(
+        "Epic", on_delete=models.DO_NOTHING, related_name="epic_tasks", blank=True
+    )
+
+
+class Epic(DatesModelMixin):
+    """
+    Epic model
+
+    Its a label for tasks.
+    """
+
+    user = models.ForeignKey(
+        User, on_delete=models.DO_NOTHING, related_name="user_epics"
+    )
+    name = models.CharField(max_length=100)
