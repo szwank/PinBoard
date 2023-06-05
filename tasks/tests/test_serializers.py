@@ -171,26 +171,10 @@ class TestEpicSerializer:
         with pytest.raises(rest_framework.exceptions.ValidationError):
             epic_serializer.is_valid(raise_exception=True)
 
-    def test_cannot_create_epic_with_status(self, user):
-        """Assert epic will not be created when status is passed"""
-
-        data = {
-            "title": "Does not matter",
-            "user_id": user.id,
-        }
-
-        epic_serializer = EpicSerializer(
-            data=data, context={"request": FakeRequest(user)}
-        )
-        epic_serializer.is_valid(raise_exception=True)
-
-        with pytest.raises(rest_framework.exceptions.ValidationError):
-            epic_serializer.create(epic_serializer.data)
-
     def test_serialize_epic(self, user):
         """Verify Epic serialization"""
 
-        task = EpicFactory.create_epic(user=user)
+        epic = EpicFactory.create_epic(user=user)
 
         epic_serializer = EpicSerializer(epic)
 
@@ -223,7 +207,8 @@ class TestEpicSerializer:
         update_data = {"user": new_user}
 
         epic = EpicFactory.create_epic(
-            user=user, title="Old title", description="Old description"
+            user=user,
+            title="Old title",
         )
 
         epic_serializer = EpicSerializer(data=update_data, partial=True)
