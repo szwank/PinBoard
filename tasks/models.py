@@ -27,7 +27,7 @@ class Task(DatesModelMixin):
     description = models.TextField()
     status = models.CharField(max_length=20, choices=StatusType.choices)
     epic = models.ForeignKey(
-        "Epic", on_delete=models.DO_NOTHING, related_name="epic_tasks", blank=True
+        "Epic", on_delete=models.DO_NOTHING, related_name="epic_tasks", null=True
     )
 
 
