@@ -63,6 +63,7 @@ urlpatterns = [
         include(
             [
                 re_path("users/", include("users.urls")),
+                re_path("tasks/", include("tasks.urls")),
             ]
         ),
     ),
