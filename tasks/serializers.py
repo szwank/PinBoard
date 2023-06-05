@@ -75,3 +75,12 @@ class EpicSerializer(SetUserMixIn, serializers.ModelSerializer):
             self.fail(error_code)
 
         return super().update(instance, validated_data)
+
+
+class EpicTasksSerializer(serializers.ModelSerializer):
+    tasks = TaskSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Epic
+        fields = ["id", "title", "tasks"]
+        depth = 1

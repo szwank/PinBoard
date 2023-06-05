@@ -26,4 +26,4 @@ run_prod: start_services
 	python manage.py runserver --settings PinBoard.settings.prod
 
 createsuperuser:
-	python manage.py createsuperuser --noinput --email admin@admin.com --username szwank
+	python manage.py createsuperuser --email aaadmin@admin.com --username admin

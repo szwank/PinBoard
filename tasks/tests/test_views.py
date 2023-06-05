@@ -280,3 +280,8 @@ class TestEpicViewSet:
         )
 
         assert response.status_code == HTTPStatus.UNAUTHORIZED
+
+
+class TestEpicTasksView:
+    def test_get_epic_tasks(self):
+        """Verify fetching user epics"""
