@@ -9,7 +9,8 @@ from tasks import (
 app_name = "tasks"
 
 router_v1 = DefaultRouter()
-router_v1.register("", views.TasksViewSet)
+router_v1.register("tasks", views.TasksViewSet)
+router_v1.register("epics", views.EpicViewSet)
 
 urlpatterns = []
 
