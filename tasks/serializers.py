@@ -12,6 +12,7 @@ from rest_framework.exceptions import (
 )
 
 from tasks.models import (
+    Epic,
     Task,
 )
 from users.serializers import (
@@ -44,6 +45,29 @@ class TaskSerializer(SetUserMixIn, serializers.ModelSerializer):
         return Task.objects.create(
             status=Task.StatusType.OPENED, user=self.user, **validated_data
         )
+
+    def update(self, instance, validated_data):
+        if validated_data.get("user"):
+            error_code = "cannot_update_user"
+            self.fail(error_code)
+
+        return super().update(instance, validated_data)
+
+
+class EpicSerializer(SetUserMixIn, serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    default_error_messages = {
+        "cannot_update_user": _("User cannot be updated"),
+    }
+
+    class Meta:
+        model = Epic
+        fields = ["id", "user", "title"]
+        depth = 1
+
+    def create(self, validated_data):
+        return Epic.objects.create(user=self.user, **validated_data)
 
     def update(self, instance, validated_data):
         if validated_data.get("user"):

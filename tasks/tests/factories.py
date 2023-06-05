@@ -21,3 +21,13 @@ class TaskFactory:
         """Create a Task"""
         user = baker.make("tasks.Task", **kwargs)
         return user
+
+
+class EpicFactory:
+    """Epic factory"""
+
+    @staticmethod
+    def create_epic(**kwargs) -> Task:
+        """Create a Task"""
+        user = baker.make("tasks.Epic", **kwargs)
+        return user

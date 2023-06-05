@@ -41,4 +41,4 @@ class Epic(DatesModelMixin):
     user = models.ForeignKey(
         User, on_delete=models.DO_NOTHING, related_name="user_epics"
     )
-    name = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
