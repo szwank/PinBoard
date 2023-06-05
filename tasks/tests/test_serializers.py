@@ -1,6 +1,9 @@
 import pytest
 import rest_framework.exceptions
 
+from core.test_utils import (
+    FakeRequest,
+)
 from tasks.models import (
     Task,
 )
@@ -10,11 +13,6 @@ from tasks.serializers import (
 from tasks.tests.factories import (
     TaskFactory,
 )
-
-
-class FakeRequest:
-    def __init__(self, user):
-        self.user = user
 
 
 @pytest.mark.django_db
