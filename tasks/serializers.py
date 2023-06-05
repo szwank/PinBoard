@@ -27,7 +27,6 @@ class TaskSerializer(SetUserMixIn, serializers.ModelSerializer):
     status = serializers.CharField(required=False)
 
     default_error_messages = {
-        "not_logged_in": _("Only logged_in users can create a Task"),
         "cannot_update_user": _("User cannot be updated"),
         "status_cannot_be_set": _("Status cannot be set when creating a Task"),
     }
