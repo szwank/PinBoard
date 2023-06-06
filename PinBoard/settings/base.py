@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "djoser",
     "drf_yasg",
     "core",
     "users",
@@ -124,6 +125,19 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = "users.User"
+
+# Djoser settings
+DJOSER = {
+    "SERIALIZERS": {
+        "user": "users.serializers.UserSerializer",
+    },
+    "SEND_ACTIVATION_EMAIL": False,
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": False,
+    "PASSWORD_RESET_CONFIRM_RETYPE": True,
+    "SET_PASSWORD_RETYPE": True,
+    "USER_CREATE_PASSWORD_RETYPE": True,
+    "TOKEN_MODEL": None,
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
