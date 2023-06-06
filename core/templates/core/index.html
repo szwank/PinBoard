@@ -1,0 +1,12 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+    <h1>PinBoard</h1>
+
+    <p>Welcome
+        {% if user.is_authenticated %}
+            {{ user.username }}
+        {% else %}
+            Guest
+        {% endif %}</p>
+{% endblock %}
