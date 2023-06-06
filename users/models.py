@@ -35,4 +35,6 @@ class User(AbstractUser):
         ),
     )
 
+    REQUIRED_FIELDS = ["email", "first_name", "last_name", "sex"]
+
     objects = UserManager()

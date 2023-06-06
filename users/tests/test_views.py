@@ -20,6 +20,7 @@ class TestUserViewSet:
             "first_name": "John",
             "last_name": "Doe",
             "password": "somepassword123",
+            "re_password": "somepassword123",
             "sex": "male",
         }
 
@@ -48,8 +49,9 @@ class TestUserViewSet:
         assert user.sex == self.data["sex"]
         assert user.is_active is False
 
-    def test_getting_user(self, client, user, user_class):
+    def test_getting_user(self, client, user):
         """Test fetching user"""
+        client.force_authenticate(user)
         response = client.get(
             reverse("users:user-detail", args=[user.id]),
             content_type="application/json",
