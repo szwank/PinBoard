@@ -13,14 +13,14 @@ class TaskFactory:
     @staticmethod
     def create_new_task(**kwargs) -> Task:
         """Create new Task (with status = Opened)"""
-        user = baker.make("tasks.Task", status=Task.StatusType.OPENED, **kwargs)
-        return user
+        task = baker.make("tasks.Task", status=Task.StatusType.OPENED, **kwargs)
+        return task
 
     @staticmethod
     def create_task(**kwargs) -> Task:
         """Create a Task"""
-        user = baker.make("tasks.Task", **kwargs)
-        return user
+        task = baker.make("tasks.Task", **kwargs)
+        return task
 
 
 class EpicFactory:
@@ -29,5 +29,5 @@ class EpicFactory:
     @staticmethod
     def create_epic(**kwargs) -> Task:
         """Create a Task"""
-        user = baker.make("tasks.Epic", **kwargs)
-        return user
+        epic = baker.make("tasks.Epic", **kwargs)
+        return epic
