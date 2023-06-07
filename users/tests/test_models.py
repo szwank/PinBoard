@@ -1,5 +1,12 @@
 import pytest
 
+from tasks.models import (
+    Task,
+)
+from tasks.tests.factories import (
+    TaskFactory,
+)
+
 
 @pytest.mark.django_db
 class TestModels:
@@ -94,3 +101,23 @@ class TestModels:
             user_class.objects.create_superuser(
                 email="user@user.com", password="foo", is_staff=False
             )
+
+    def test_getting_user_tasks(self, user):
+        """Verify fetching user tasks"""
+        tasks_to_find = TaskFactory.create_task(user=user, _quantity=3)
+        TaskFactory.create_task(_quantity=3)  # other tasks
+
+        user_tasks = user.tasks()
+
+        assert set(user_tasks) == set(tasks_to_find)
+
+    def test_getting_user_tasks_with_chosen_status(self, user):
+        """Verify fetching user tasks with chosen status"""
+        task_to_find = TaskFactory.create_task(user=user, status=Task.StatusType.OPENED)
+        TaskFactory.create_task(user=user, status=Task.StatusType.INPROGRES)
+        TaskFactory.create_task(user=user, status=Task.StatusType.DONE)
+
+        opened_tasks = user.tasks(Task.StatusType.OPENED)
+
+        assert len(opened_tasks) == 1, "Should return only one task"
+        assert opened_tasks[0] == task_to_find

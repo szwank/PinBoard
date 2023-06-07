@@ -4,10 +4,16 @@ from django.contrib.auth.models import (
 from django.db import (
     models,
 )
+from django.db.models import (
+    QuerySet,
+)
 from django.utils.translation import (
     gettext_lazy as _,
 )
 
+from tasks.models import (
+    Task,
+)
 from users.managers import (
     UserManager,
 )
@@ -38,3 +44,18 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ["email", "first_name", "last_name", "sex"]
 
     objects = UserManager()
+
+    def tasks(self, status: Task.StatusType = None) -> QuerySet[Task]:
+        """
+        Return user tasks.
+
+        :param status: if set only tasks with given status will be returned.
+        """
+        queryset = self.user_tasks
+
+        if status:
+            queryset = queryset.filter(status=status)
+        else:
+            queryset = queryset.all()
+
+        return queryset.all()
