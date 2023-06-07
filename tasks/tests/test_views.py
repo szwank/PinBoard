@@ -154,7 +154,7 @@ class TestEpicViewSet:
     def test_anonymous_cannot_create_epic(self, client, user):
         """Assert anonymous user cannot create an epic"""
         data = {
-            "title": "This is nice title",
+            "title": "Does not matter",
         }
         response = client.post(reverse("tasks:epic-list"), data=data)
 

@@ -7,23 +7,19 @@ from django.utils.translation import (
 from rest_framework import (
     serializers,
 )
-from rest_framework.exceptions import (
-    ValidationError,
-)
 
 from tasks.models import (
     Epic,
     Task,
 )
 from users.serializers import (
-    SetUserMixIn,
     UserSerializer,
 )
 
 User = get_user_model()
 
 
-class TaskSerializer(SetUserMixIn, serializers.ModelSerializer):
+class TaskSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     status = serializers.CharField(required=False)
 
@@ -35,16 +31,13 @@ class TaskSerializer(SetUserMixIn, serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = ["id", "user", "title", "description", "status"]
-        depth = 1
 
     def create(self, validated_data):
         if validated_data.get("status"):
             error_code = "status_cannot_be_set"
             self.fail(error_code)
 
-        return Task.objects.create(
-            status=Task.StatusType.OPENED, user=self.user, **validated_data
-        )
+        return Task.objects.create(status=Task.StatusType.OPENED, **validated_data)
 
     def update(self, instance, validated_data):
         if validated_data.get("user"):
@@ -54,7 +47,7 @@ class TaskSerializer(SetUserMixIn, serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 
-class EpicSerializer(SetUserMixIn, serializers.ModelSerializer):
+class EpicSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
 
     default_error_messages = {
@@ -67,7 +60,7 @@ class EpicSerializer(SetUserMixIn, serializers.ModelSerializer):
         depth = 1
 
     def create(self, validated_data):
-        return Epic.objects.create(user=self.user, **validated_data)
+        return Epic.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         if validated_data.get("user"):

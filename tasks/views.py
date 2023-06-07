@@ -29,9 +29,9 @@ class TasksViewSet(ModelViewSet):
             return queryset.none()
         return queryset.filter(user=self.request.user).all()
 
-    def create(self, request, *args, **kwargs):
-        request.data["user_id"] = request.user.id
-        return super().create(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        """Add current user to the serializer"""
+        serializer.save(user=self.request.user)
 
 
 class EpicViewSet(ModelViewSet):
@@ -48,6 +48,6 @@ class EpicViewSet(ModelViewSet):
             return queryset.none()
         return queryset.filter(user=self.request.user).all()
 
-    def create(self, request, *args, **kwargs):
-        request.data["user_id"] = request.user.id
-        return super().create(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        """Add current user to the serializer"""
+        serializer.save(user=self.request.user)

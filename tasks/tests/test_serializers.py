@@ -27,38 +27,17 @@ class TestTaskSerializer:
         data = {
             "title": "Test title",
             "description": "Do this and do that",
-            "user_id": user.id,
         }
 
-        task_serializer = TaskSerializer(
-            data=data, context={"request": FakeRequest(user)}
-        )
+        task_serializer = TaskSerializer(data=data)
 
         task_serializer.is_valid(raise_exception=True)
-        task = task_serializer.create(task_serializer.data)
+        task = task_serializer.save(user=user)
 
         assert task.title == data["title"]
         assert task.description == data["description"]
         assert task.status == Task.StatusType.OPENED
         assert task.user == user
-
-    def test_cannot_create_new_ticket_with_not_existing_user(self, user_class, user):
-        """Assert that ticket cannot be created if not existing user id is passed"""
-        user_id = user_class.objects.latest("id").id + 1
-        assert user_class.objects.filter(id=user_id).first() is None
-
-        data = {
-            "title": "Does not matter",
-            "description": "Does not matter",
-            "user_id": user_id,
-        }
-
-        task_serializer = TaskSerializer(
-            data=data, context={"request": FakeRequest(user)}
-        )
-
-        with pytest.raises(rest_framework.exceptions.ValidationError):
-            task_serializer.is_valid(raise_exception=True)
 
     def test_cannot_create_ticket_with_status(self, user):
         """Assert ticket will not be created when status is passed"""
@@ -141,7 +120,6 @@ class TestEpicSerializer:
 
         data = {
             "title": "Test title",
-            "user_id": user.id,
         }
 
         epic_serializer = EpicSerializer(
@@ -149,27 +127,10 @@ class TestEpicSerializer:
         )
 
         epic_serializer.is_valid(raise_exception=True)
-        epic = epic_serializer.create(epic_serializer.data)
+        epic = epic_serializer.save(user=user)
 
         assert epic.title == data["title"]
         assert epic.user == user
-
-    def test_cannot_create_new_ticket_with_not_existing_user(self, user_class, user):
-        """Assert that epic cannot be created if not existing user id is passed"""
-        user_id = user_class.objects.latest("id").id + 1
-        assert user_class.objects.filter(id=user_id).first() is None
-
-        data = {
-            "title": "Does not matter",
-            "user_id": user_id,
-        }
-
-        epic_serializer = EpicSerializer(
-            data=data, context={"request": FakeRequest(user)}
-        )
-
-        with pytest.raises(rest_framework.exceptions.ValidationError):
-            epic_serializer.is_valid(raise_exception=True)
 
     def test_serialize_epic(self, user):
         """Verify Epic serialization"""
