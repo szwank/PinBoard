@@ -4,6 +4,7 @@ from tasks.models import (
     Task,
 )
 from tasks.tests.factories import (
+    EpicFactory,
     TaskFactory,
 )
 
@@ -121,3 +122,12 @@ class TestModels:
 
         assert len(opened_tasks) == 1, "Should return only one task"
         assert opened_tasks[0] == task_to_find
+
+    def test_getting_user_epics(self, user):
+        """Verify fetching user epics"""
+        epics_to_find = EpicFactory.create_epic(user=user, _quantity=3)
+        TaskFactory.create_task(_quantity=3)  # other tasks
+
+        user_epics = user.epics()
+
+        assert set(user_epics) == set(epics_to_find)

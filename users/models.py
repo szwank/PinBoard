@@ -12,6 +12,7 @@ from django.utils.translation import (
 )
 
 from tasks.models import (
+    Epic,
     Task,
 )
 from users.managers import (
@@ -59,3 +60,7 @@ class User(AbstractUser):
             queryset = queryset.all()
 
         return queryset.all()
+
+    def epics(self) -> QuerySet[Epic]:
+        """Return user epics."""
+        return self.user_epics.all()
