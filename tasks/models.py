@@ -1,6 +1,3 @@
-from django.contrib.auth import (
-    get_user_model,
-)
 from django.db import (
     models,
 )
@@ -8,8 +5,6 @@ from django.db import (
 from core.models import (
     DatesModelMixin,
 )
-
-User = get_user_model()
 
 
 class Task(DatesModelMixin):
@@ -22,7 +17,9 @@ class Task(DatesModelMixin):
         INPROGRES = "In Progress"
         DONE = "Done"
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_tasks")
+    user = models.ForeignKey(
+        "users.User", on_delete=models.CASCADE, related_name="user_tasks"
+    )
     title = models.CharField(max_length=100)
     description = models.TextField()
     status = models.CharField(max_length=20, choices=StatusType.choices)
@@ -39,6 +36,6 @@ class Epic(DatesModelMixin):
     """
 
     user = models.ForeignKey(
-        User, on_delete=models.DO_NOTHING, related_name="user_epics"
+        "users.User", on_delete=models.DO_NOTHING, related_name="user_epics"
     )
     title = models.CharField(max_length=100)
