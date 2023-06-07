@@ -1,3 +1,6 @@
+from django_filters import (
+    rest_framework as filters,
+)
 from rest_framework import (
     permissions,
 )
@@ -5,6 +8,10 @@ from rest_framework.viewsets import (
     ModelViewSet,
 )
 
+from tasks.filtersets import (
+    EpicFilter,
+    TaskFilter,
+)
 from tasks.models import (
     Epic,
     Task,
@@ -21,6 +28,8 @@ class TasksViewSet(ModelViewSet):
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Task.objects.all()
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = TaskFilter
 
     def get_queryset(self):
         """Return user Tasks"""
@@ -40,6 +49,8 @@ class EpicViewSet(ModelViewSet):
     serializer_class = EpicSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Epic.objects.all()
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = EpicFilter
 
     def get_queryset(self):
         """Return user Epics"""

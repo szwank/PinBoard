@@ -133,6 +133,52 @@ class TestTaskViewSet:
 
         assert response.status_code == HTTPStatus.UNAUTHORIZED
 
+    def test_filtering_by_title(self, client, user, user_fixture_factory):
+        """Verify filtering by title works"""
+        task_to_find = TaskFactory.create_task(
+            title="How to take over earth?", user=user
+        )
+        TaskFactory.create_task(title="Do 1000 coding exercises?", user=user)
+        TaskFactory.create_task(title="This is private right?")
+
+        client.force_authenticate(user)
+        response = client.get(
+            reverse("tasks:task-list"), data={"title__contains": "earth"}
+        )
+        assert response.status_code == HTTPStatus.OK, response.data
+        assert len(response.data) == 1, "Should return only one task"
+        assert response.data[0]["id"] == task_to_find.id
+
+    def test_filtering_by_description(self, client, user, user_fixture_factory):
+        """Verify filtering by description works"""
+        task_to_find = TaskFactory.create_task(
+            description="Do exercise and read that book", user=user
+        )
+        TaskFactory.create_task(description="Dont do that", user=user)
+        TaskFactory.create_task(description="Or maybe do that")
+
+        client.force_authenticate(user)
+        response = client.get(
+            reverse("tasks:task-list"), data={"description__contains": "exercise"}
+        )
+        assert response.status_code == HTTPStatus.OK, response.data
+        assert len(response.data) == 1, "Should return only one task"
+        assert response.data[0]["id"] == task_to_find.id
+
+    def test_filtering_by_status(self, client, user, user_fixture_factory):
+        """Verify filtering by status works"""
+        task_to_find = TaskFactory.create_task(status=Task.StatusType.OPENED, user=user)
+        TaskFactory.create_task(status=Task.StatusType.INPROGRES, user=user)
+        TaskFactory.create_task(status=Task.StatusType.OPENED)
+
+        client.force_authenticate(user)
+        response = client.get(
+            reverse("tasks:task-list"), data={"status": Task.StatusType.OPENED}
+        )
+        assert response.status_code == HTTPStatus.OK, response.data
+        assert len(response.data) == 1, "Should return only one task"
+        assert response.data[0]["id"] == task_to_find.id
+
 
 @pytest.mark.django_db
 class TestEpicViewSet:
@@ -280,3 +326,17 @@ class TestEpicViewSet:
         )
 
         assert response.status_code == HTTPStatus.UNAUTHORIZED
+
+    def test_filtering_by_title(self, client, user, user_fixture_factory):
+        """Verify filtering by title works"""
+        epic_to_find = EpicFactory.create_epic(title="Battle stars", user=user)
+        EpicFactory.create_epic(title="Cats", user=user)
+        EpicFactory.create_epic(title="Cylons")
+
+        client.force_authenticate(user)
+        response = client.get(
+            reverse("tasks:epic-list"), data={"title__contains": "Battle"}
+        )
+        assert response.status_code == HTTPStatus.OK, response.data
+        assert len(response.data) == 1, "Should return only one epic"
+        assert response.data[0]["id"] == epic_to_find.id
