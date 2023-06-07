@@ -10,12 +10,8 @@ User = get_user_model()
 
 class UserFactory:
     @staticmethod
-    def create_user(active=True, **kwargs) -> User:
-        if active:
-            kwargs.update(
-                {
-                    "is_active": True,
-                }
-            )
+    def create_user(**kwargs) -> User:
+        kwargs.setdefault("is_active", True)
+
         user = baker.make("users.User", **kwargs)
         return user

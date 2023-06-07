@@ -1,15 +1,16 @@
+import djoser.views
 from rest_framework.routers import (
     DefaultRouter,
 )
 
-from users import (
-    views,
+from users.views import (
+    UserViewSet,
 )
 
 app_name = "users"
 
 router_v1 = DefaultRouter()
-router_v1.register("", views.UserViewSet)
+router_v1.register("", UserViewSet)
 
 urlpatterns = []
 
