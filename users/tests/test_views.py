@@ -7,6 +7,13 @@ import pytest
 from django.urls import (
     reverse,
 )
+from rest_framework import (
+    status,
+)
+
+from users.tests.factories import (
+    UserFactory,
+)
 
 
 @pytest.mark.django_db
@@ -64,3 +71,15 @@ class TestUserViewSet:
         assert response.data["sex"] == user.sex
         assert response.data["username"] == user.username
         assert response.data["id"] == user.id
+
+    def test_user_activation(self, client):
+        """Verify user activation"""
+        user = UserFactory.create_user(is_active=False, username="Jack")
+        response = client.get(
+            reverse("users:user-activate-user", args=[user.username]),
+            content_type="application/json",
+        )
+        assert response.status_code == status.HTTP_200_OK, response.data
+        assert response.data == {}
+        user.refresh_from_db()
+        assert user.is_active is True
