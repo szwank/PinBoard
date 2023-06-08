@@ -7,8 +7,8 @@ from core.views import (
     PinBoardView,
 )
 from tasks.views import (
-    TaskCreate,
-    TaskEdit,
+    CreateTask,
+    EditTask,
 )
 
 app_name = "core"
@@ -16,6 +16,6 @@ app_name = "core"
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
     path("pinboard", PinBoardView.as_view(), name="pin_board"),
-    path("task/edit/<int:pk>", TaskEdit.as_view(), name="task_edit"),
-    path("task/create/", TaskCreate.as_view(), name="task_create"),
+    path("task/edit/<int:pk>", EditTask.as_view(), name="edit_task"),
+    path("task/create/", CreateTask.as_view(), name="create_task"),
 ]

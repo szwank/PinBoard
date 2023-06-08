@@ -45,11 +45,11 @@
                             <a class="nav-link" href="{% url 'core:pin_board' %}">PinBoard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'core:task_create' %}">New Task</a>
+                            <a class="nav-link" href="{% url 'core:create_task' %}">New Task</a>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'core:rest_framework:login' %}">Sign In</a>
+                            <a class="nav-link" href="{% url 'rest_framework:login' %}">Sign In</a>
                         </li>
                     {% endif %}
                 </ul>

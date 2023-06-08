@@ -79,9 +79,9 @@ class EpicViewSet(ModelViewSet):
         serializer.save(user=self.request.user)
 
 
-class TaskEdit(APIView):
+class EditTask(APIView):
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = "tasks/task_edit.html"
+    template_name = "tasks/edit_task.html"
 
     def get(self, request, pk):
         task = get_object_or_404(Task, pk=pk)
@@ -97,9 +97,9 @@ class TaskEdit(APIView):
         return redirect("core:index")
 
 
-class TaskCreate(APIView):
+class CreateTask(APIView):
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = "tasks/task_create.html"
+    template_name = "tasks/create_task.html"
 
     def get(self, request):
         serializer = TaskSerializer()
