@@ -31,7 +31,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'index' %}">PinBoard</a>
+            <a class="navbar-brand" href="{% url 'core:index' %}">PinBoard</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -39,14 +39,14 @@
                 <ul class="navbar-nav me-auto">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'index' %}">Home</a>
+                            <a class="nav-link" href="{% url 'core:index' %}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'pin_board' %}">PinBoard</a>
+                            <a class="nav-link" href="{% url 'core:pin_board' %}">PinBoard</a>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'rest_framework:login' %}">Sign In</a>
+                            <a class="nav-link" href="{% url 'core:rest_framework:login' %}">Sign In</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -55,7 +55,7 @@
                         {{ user.username }}
                     </div>
                     <div class="p-1 mb-2 bg-dark text-white">
-                        <a class="nav-link" href="{% url 'rest_framework:logout' %}?next={% url 'index' %}">LogOut</a>
+                        <a class="nav-link" href="{% url 'rest_framework:logout' %}?next={% url 'core:index' %}">LogOut</a>
                     </div>
                 {% endif %}
             </div>

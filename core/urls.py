@@ -7,6 +7,8 @@ from core.views import (
     PinBoardView,
 )
 
+app_name = "core"
+
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
     path("pinboard", PinBoardView.as_view(), name="pin_board"),
