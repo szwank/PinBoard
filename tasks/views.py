@@ -1,8 +1,23 @@
+from django.shortcuts import (
+    redirect,
+)
 from django_filters import (
     rest_framework as filters,
 )
 from rest_framework import (
     permissions,
+)
+from rest_framework.generics import (
+    get_object_or_404,
+)
+from rest_framework.renderers import (
+    TemplateHTMLRenderer,
+)
+from rest_framework.response import (
+    Response,
+)
+from rest_framework.views import (
+    APIView,
 )
 from rest_framework.viewsets import (
     ModelViewSet,
@@ -62,3 +77,21 @@ class EpicViewSet(ModelViewSet):
     def perform_create(self, serializer):
         """Add current user to the serializer"""
         serializer.save(user=self.request.user)
+
+
+class TaskEdit(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "tasks/task.html"
+
+    def get(self, request, pk):
+        task = get_object_or_404(Task, pk=pk)
+        serializer = TaskSerializer(task)
+        return Response({"serializer": serializer, "task": task})
+
+    def post(self, request, pk):
+        task = get_object_or_404(Task, pk=pk)
+        serializer = TaskSerializer(task, data=request.data)
+        if not serializer.is_valid():
+            return Response({"serializer": serializer, "task": task})
+        serializer.save()
+        return redirect("core:index")
