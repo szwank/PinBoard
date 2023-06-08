@@ -2,6 +2,22 @@ version: '3.1'
 
 services:
 
+  nginx:
+    image: nginx:1.19.0-alpine
+    ports:
+      - 80:80
+    volumes:
+      - static_volume:${APP_DIR}/staticfiles
+      - ./nginx_config:/etc/nginx/conf.d/
+    environment:
+      - APP_PORT=${APP_PORT}
+      - APP_DIR=${APP_DIR}
+    depends_on:
+      - web
+    restart: "on-failure"
+    networks:
+      - proxynet
+
   web:
     container_name: PinBoard
     build:
