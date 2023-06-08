@@ -21,7 +21,7 @@ User = get_user_model()
 
 class TaskSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    status = serializers.CharField(required=False)
+    status = serializers.ChoiceField(choices=Task.StatusType, required=False)
 
     default_error_messages = {
         "cannot_update_user": _("User cannot be updated"),
