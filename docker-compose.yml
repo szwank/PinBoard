@@ -2,6 +2,28 @@ version: '3.1'
 
 services:
 
+  web:
+    container_name: PinBoard
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - APP_DIR=${APP_DIR}
+      labels:
+        - Pinboard
+    command: sh -c "
+      python manage.py migrate --settings PinBoard.settings.dev &&
+      gunicorn PinBoard.wsgi:application --bind 0.0.0.0:${APP_PORT}"
+    env_file:
+      - .env
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    restart: "on-failure"
+    depends_on:
+      - postgres
+    networks:
+      - proxynet
+
   postgres:
     image: postgres:15.3
     restart: on-failure
