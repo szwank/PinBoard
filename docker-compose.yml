@@ -16,6 +16,8 @@ services:
       python manage.py migrate --settings PinBoard.settings.dev &&
       python manage.py createdefaultsuperuser --settings PinBoard.settings.dev &&
       gunicorn PinBoard.wsgi:application --bind 0.0.0.0:${APP_PORT}"
+    volumes:
+      - static_volume:${APP_DIR}/staticfiles
     env_file:
       - .env
     ports:
@@ -43,6 +45,7 @@ services:
 
 volumes:
   postgres_data:
+  static_volume:
 
 networks:
   proxynet:
