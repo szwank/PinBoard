@@ -1,0 +1,10 @@
+<div class="list-group">
+    {% for epic in epic_list %}
+        <a href="{% url 'edit_epic' id=epic.id %}" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ epic.title }}</h5>
+            </div>
+            <p class="mb-1">{{ task.user }}</p>
+        </a>
+    {% endfor %}
+</div>

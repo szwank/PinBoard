@@ -1,0 +1,14 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h2>User epics</h2>
+            {% include "tasks/epic_list.html" with epic_list=user_epics %}
+        </div>
+        <div class="col">
+            <h2>User tasks</h2>
+            {% include "tasks/task_list.html" with task_list=user_tasks %}
+        </div>
+    </div>
+{% endblock %}

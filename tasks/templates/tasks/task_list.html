@@ -1,0 +1,12 @@
+<div class="list-group">
+    {% for task in task_list %}
+        <a href="" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ task.title }}</h5>
+                <small>{{ task.status }}</small>
+            </div>
+            <p class="mb-1">{{ task.description }}</p>
+            <small>Epic: {{ task.epic }}</small>
+        </a>
+    {% endfor %}
+</div>
