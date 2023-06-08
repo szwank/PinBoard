@@ -118,3 +118,37 @@ class CreateTask(APIView):
             return Response({"serializer": serializer})
         serializer.save(user=self.request.user)
         return redirect("core:index")
+
+
+class EditEpic(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "tasks/edit_epic.html"
+
+    def get(self, request, pk):
+        epic = get_object_or_404(Epic, pk=pk)
+        serializer = EpicSerializer(epic)
+        return Response({"serializer": serializer, "epic": epic})
+
+    def post(self, request, pk):
+        epic = get_object_or_404(Epic, pk=pk)
+        serializer = EpicSerializer(epic, data=request.data)
+        if not serializer.is_valid():
+            return Response({"serializer": serializer, "epic": epic})
+        serializer.save()
+        return redirect("core:index")
+
+
+class CreateEpic(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "tasks/create_epic.html"
+
+    def get(self, request):
+        serializer = EpicSerializer()
+        return Response({"serializer": serializer})
+
+    def post(self, request):
+        serializer = EpicSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response({"serializer": serializer})
+        serializer.save(user=self.request.user)
+        return redirect("core:index")

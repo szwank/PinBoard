@@ -1,0 +1,12 @@
+{% extends "core/base.html" %}
+
+{% load rest_framework %}
+
+{% block content %}
+    <h2>Edit epic</h2>
+    <form action="{% url 'core:edit_epic' pk=epic.id %}" method="POST">
+            {% csrf_token %}
+            {% render_form serializer %}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

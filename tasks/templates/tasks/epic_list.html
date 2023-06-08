@@ -1,6 +1,6 @@
 <div class="list-group">
     {% for epic in epic_list %}
-        <a href="{% url 'edit_epic' id=epic.id %}" class="list-group-item list-group-item-action">
+        <a href="{% url 'core:edit_epic' pk=epic.id %}" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ epic.title }}</h5>
             </div>
