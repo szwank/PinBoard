@@ -9,4 +9,5 @@ from core.views import (
 
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
+    path("pinboard", PinBoardView.as_view(), name="pin_board"),
 ]

@@ -41,6 +41,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'index' %}">Home</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'pin_board' %}">PinBoard</a>
+                        </li>
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'rest_framework:login' %}">Sign In</a>

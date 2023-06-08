@@ -1,0 +1,18 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h2>User opened tasks</h2>
+            {% include "tasks/task_list.html" with task_list=user_tasks_open %}
+        </div>
+        <div class="col">
+            <h2>User inprogress tasks</h2>
+            {% include "tasks/task_list.html" with task_list=user_tasks_inprogress %}
+        </div>
+        <div class="col">
+            <h2>User done tasks</h2>
+            {% include "tasks/task_list.html" with task_list=user_tasks_done %}
+        </div>
+    </div>
+{% endblock %}
