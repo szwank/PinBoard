@@ -8,6 +8,7 @@ from rest_framework import (
     permissions,
 )
 from rest_framework.generics import (
+    GenericAPIView,
     get_object_or_404,
 )
 from rest_framework.renderers import (
@@ -15,9 +16,6 @@ from rest_framework.renderers import (
 )
 from rest_framework.response import (
     Response,
-)
-from rest_framework.views import (
-    APIView,
 )
 from rest_framework.viewsets import (
     ModelViewSet,
@@ -86,68 +84,72 @@ class EpicViewSet(ModelViewSet):
         serializer.save(user=self.request.user)
 
 
-class EditTask(APIView):
+class EditTask(GenericAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "tasks/edit_task.html"
+    serializer_class = TaskSerializer
 
     def get(self, request, pk):
         task = get_object_or_404(Task, pk=pk)
-        serializer = TaskSerializer(task)
+        serializer = self.get_serializer(task)
         return Response({"serializer": serializer, "task": task})
 
     def post(self, request, pk):
         task = get_object_or_404(Task, pk=pk)
-        serializer = TaskSerializer(task, data=request.data)
+        serializer = self.get_serializer(task, data=request.data)
         if not serializer.is_valid():
             return Response({"serializer": serializer, "task": task})
         serializer.save()
         return redirect("core:index")
 
 
-class CreateTask(APIView):
+class CreateTask(GenericAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "tasks/create_task.html"
+    serializer_class = NewTaskSerializer
 
     def get(self, request):
-        serializer = NewTaskSerializer()
+        serializer = self.get_serializer()
         return Response({"serializer": serializer})
 
     def post(self, request):
-        serializer = NewTaskSerializer(data=request.data)
+        serializer = self.get_serializer(data=request.data)
         if not serializer.is_valid():
             return Response({"serializer": serializer})
         serializer.save(user=self.request.user)
         return redirect("core:index")
 
 
-class EditEpic(APIView):
+class EditEpic(GenericAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "tasks/edit_epic.html"
+    serializer_class = EpicSerializer
 
     def get(self, request, pk):
         epic = get_object_or_404(Epic, pk=pk)
-        serializer = EpicSerializer(epic)
+        serializer = self.get_serializer(epic)
         return Response({"serializer": serializer, "epic": epic})
 
     def post(self, request, pk):
         epic = get_object_or_404(Epic, pk=pk)
-        serializer = EpicSerializer(epic, data=request.data)
+        serializer = self.get_serializer(epic, data=request.data)
         if not serializer.is_valid():
             return Response({"serializer": serializer, "epic": epic})
         serializer.save()
         return redirect("core:index")
 
 
-class CreateEpic(APIView):
+class CreateEpic(GenericAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "tasks/create_epic.html"
+    serializer_class = EpicSerializer
 
     def get(self, request):
-        serializer = EpicSerializer()
+        serializer = self.get_serializer()
         return Response({"serializer": serializer})
 
     def post(self, request):
-        serializer = EpicSerializer(data=request.data)
+        serializer = self.get_serializer(data=request.data)
         if not serializer.is_valid():
             return Response({"serializer": serializer})
         serializer.save(user=self.request.user)
