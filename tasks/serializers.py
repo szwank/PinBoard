@@ -33,11 +33,9 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = ["id", "user", "title", "description", "status"]
 
     def create(self, validated_data):
-        if validated_data.get("status"):
-            error_code = "status_cannot_be_set"
-            self.fail(error_code)
-
-        return Task.objects.create(status=Task.StatusType.OPENED, **validated_data)
+        raise NotImplementedError(
+            "Should not be called. To create task use NewTaskSerializer instead."
+        )
 
     def update(self, instance, validated_data):
         if validated_data.get("user"):
@@ -45,6 +43,40 @@ class TaskSerializer(serializers.ModelSerializer):
             self.fail(error_code)
 
         return super().update(instance, validated_data)
+
+
+class NewTaskSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    status = serializers.CharField(read_only=True)
+
+    default_error_messages = {
+        "status_cannot_be_set": _("Status cannot be set when creating a Task"),
+    }
+
+    class Meta:
+        model = Task
+        fields = ["id", "user", "title", "description", "status"]
+
+    def validate(self, attrs):
+        """
+        Validate that status was not passed.
+
+        This is mostly done to throw up usefully message in case status is passed.
+        """
+        if hasattr(self, "initial_data"):
+            if self.initial_data.get("status"):
+                error_code = "status_cannot_be_set"
+                self.fail(error_code)
+
+        return super().validate(attrs)
+
+    def create(self, validated_data):
+        return Task.objects.create(status=Task.StatusType.OPENED, **validated_data)
+
+    def update(self, instance, validated_data):
+        raise NotImplementedError(
+            "Should not be called. To update task use TaskSerializer instead."
+        )
 
 
 class EpicSerializer(serializers.ModelSerializer):

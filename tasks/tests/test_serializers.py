@@ -9,6 +9,7 @@ from tasks.models import (
 )
 from tasks.serializers import (
     EpicSerializer,
+    NewTaskSerializer,
     TaskSerializer,
 )
 from tasks.tests.factories import (
@@ -29,7 +30,7 @@ class TestTaskSerializer:
             "description": "Do this and do that",
         }
 
-        task_serializer = TaskSerializer(data=data)
+        task_serializer = NewTaskSerializer(data=data)
 
         task_serializer.is_valid(raise_exception=True)
         task = task_serializer.save(user=user)
@@ -40,22 +41,46 @@ class TestTaskSerializer:
         assert task.user == user
 
     def test_cannot_create_ticket_with_status(self, user):
-        """Assert ticket will not be created when status is passed"""
+        """Assert task will not be created when status is passed"""
 
         data = {
             "title": "Does not matter",
             "description": "Does not matter",
-            "user_id": user.id,
-            "status": Task.StatusType.OPENED,
+            "status": Task.StatusType.INPROGRES,
         }
 
-        task_serializer = TaskSerializer(
-            data=data, context={"request": FakeRequest(user)}
-        )
-        task_serializer.is_valid(raise_exception=True)
+        task_serializer = NewTaskSerializer(data=data)
 
         with pytest.raises(rest_framework.exceptions.ValidationError):
-            task_serializer.create(task_serializer.data)
+            task_serializer.is_valid(raise_exception=True)
+
+    def test_cannot_update_with_NewTaskSerializer(self, user):
+        """Assert task cannot be updated with NewTaskSerializer"""
+        task = TaskFactory.create_new_task()
+        data = {
+            "title": "Does not matter",
+            "description": "Does not matter",
+            "status": Task.StatusType.INPROGRES,
+        }
+
+        task_serializer = NewTaskSerializer(data)
+        with pytest.raises(NotImplementedError):
+            task_serializer.update(task, data)
+
+    def test_assert_cannot_create_ticket_with_status(self, user):
+        """Assert cannot create new task with TaskSerializer"""
+
+        data = {
+            "title": "Does not matter",
+            "description": "Does not matter",
+            "status": Task.StatusType.INPROGRES,
+        }
+
+        task_serializer = TaskSerializer(data=data)
+        task_serializer.is_valid(raise_exception=True)
+
+        with pytest.raises(NotImplementedError):
+            task_serializer.save()
 
     def test_serialize_task(self, user):
         """Verify Task serialization"""

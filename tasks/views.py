@@ -33,12 +33,19 @@ from tasks.models import (
 )
 from tasks.serializers import (
     EpicSerializer,
+    NewTaskSerializer,
     TaskSerializer,
 )
 
 
 class TasksViewSet(ModelViewSet):
     """Operate on user tasks"""
+
+    def get_serializer_class(self):
+        if self.action == "create":
+            return NewTaskSerializer
+        else:
+            return super().get_serializer_class()
 
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -102,12 +109,12 @@ class CreateTask(APIView):
     template_name = "tasks/create_task.html"
 
     def get(self, request):
-        serializer = TaskSerializer()
+        serializer = NewTaskSerializer()
         return Response({"serializer": serializer})
 
     def post(self, request):
-        serializer = TaskSerializer(data=request.data)
+        serializer = NewTaskSerializer(data=request.data)
         if not serializer.is_valid():
             return Response({"serializer": serializer})
-        serializer.save()
+        serializer.save(user=self.request.user)
         return redirect("core:index")
