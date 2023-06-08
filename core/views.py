@@ -1,3 +1,5 @@
+import logging
+
 from django.views.generic import (
     TemplateView,
 )
@@ -14,7 +16,18 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
         if not self.request.user.is_anonymous:
             context["user_tasks"] = self.request.user.tasks()
+            task_search = self.request.GET.get("task_search", False)
+            if task_search:
+                context["user_tasks"] = (
+                    context["user_tasks"].filter(title__contains=task_search).all()
+                )
+
             context["user_epics"] = self.request.user.epics()
+            epic_search = self.request.GET.get("epic_search", False)
+            if epic_search:
+                context["user_epics"] = (
+                    context["user_epics"].filter(title__contains=epic_search).all()
+                )
         return context
 
 

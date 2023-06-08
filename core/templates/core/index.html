@@ -4,10 +4,18 @@
     <div class="row">
         <div class="col">
             <h2>User epics</h2>
+            <form class="form-inline" method="GET" action="" >
+                <input class="form-control" type="search" name="epic_search">
+                <button class="btn btn-primary" type="submit"> Search </button>
+            </form>
             {% include "tasks/epic_list.html" with epic_list=user_epics %}
         </div>
         <div class="col">
             <h2>User tasks</h2>
+            <form class="form-inline" method="GET" action="" >
+                <input class="form-control" type="search" name="task_search">
+                <button class="btn btn-primary" type="submit"> Search </button>
+            </form>
             {% include "tasks/task_list.html" with task_list=user_tasks %}
         </div>
     </div>
