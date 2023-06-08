@@ -28,9 +28,12 @@ class TestTaskSerializer:
         data = {
             "title": "Test title",
             "description": "Do this and do that",
+            "epic_id": None,
         }
 
-        task_serializer = NewTaskSerializer(data=data)
+        task_serializer = NewTaskSerializer(
+            data=data, context={"request": FakeRequest(user)}
+        )
 
         task_serializer.is_valid(raise_exception=True)
         task = task_serializer.save(user=user)
@@ -38,6 +41,28 @@ class TestTaskSerializer:
         assert task.title == data["title"]
         assert task.description == data["description"]
         assert task.status == Task.StatusType.OPENED
+        assert task.user == user
+
+    def test_create_new_task_with_epic(self, user):
+        """Verify creation of Task with Epic"""
+        epic = EpicFactory.create_epic(user=user)
+        data = {
+            "title": "Test title",
+            "description": "Do this and do that",
+            "epic_id": str(epic.id),
+        }
+
+        task_serializer = NewTaskSerializer(
+            data=data, context={"request": FakeRequest(user)}
+        )
+
+        task_serializer.is_valid(raise_exception=True)
+        task = task_serializer.save(user=user)
+
+        assert task.title == data["title"]
+        assert task.description == data["description"]
+        assert task.status == Task.StatusType.OPENED
+        assert task.epic == epic
         assert task.user == user
 
     def test_cannot_create_ticket_with_status(self, user):
@@ -49,7 +74,9 @@ class TestTaskSerializer:
             "status": Task.StatusType.INPROGRES,
         }
 
-        task_serializer = NewTaskSerializer(data=data)
+        task_serializer = NewTaskSerializer(
+            data=data, context={"request": FakeRequest(user)}
+        )
 
         with pytest.raises(rest_framework.exceptions.ValidationError):
             task_serializer.is_valid(raise_exception=True)
@@ -63,7 +90,9 @@ class TestTaskSerializer:
             "status": Task.StatusType.INPROGRES,
         }
 
-        task_serializer = NewTaskSerializer(data)
+        task_serializer = NewTaskSerializer(
+            data, context={"request": FakeRequest(user)}
+        )
         with pytest.raises(NotImplementedError):
             task_serializer.update(task, data)
 
@@ -74,9 +103,12 @@ class TestTaskSerializer:
             "title": "Does not matter",
             "description": "Does not matter",
             "status": Task.StatusType.INPROGRES,
+            "epic_id": None,
         }
 
-        task_serializer = TaskSerializer(data=data)
+        task_serializer = TaskSerializer(
+            data=data, context={"request": FakeRequest(user)}
+        )
         task_serializer.is_valid(raise_exception=True)
 
         with pytest.raises(NotImplementedError):
@@ -87,7 +119,7 @@ class TestTaskSerializer:
 
         task = TaskFactory.create_new_task(user=user)
 
-        task_serializer = TaskSerializer(task)
+        task_serializer = TaskSerializer(task, context={"request": FakeRequest(user)})
 
         data = task_serializer.data
         assert task.title == data["title"]
@@ -108,7 +140,9 @@ class TestTaskSerializer:
             user=user, title="Old title", description="Old description"
         )
 
-        task_serializer = TaskSerializer(data=update_data, partial=True)
+        task_serializer = TaskSerializer(
+            data=update_data, partial=True, context={"request": FakeRequest(user)}
+        )
         task_serializer.is_valid(raise_exception=True)
 
         task_serializer.update(task, update_data)
@@ -129,7 +163,9 @@ class TestTaskSerializer:
             user=user, title="Old title", description="Old description"
         )
 
-        task_serializer = TaskSerializer(data=update_data, partial=True)
+        task_serializer = TaskSerializer(
+            data=update_data, partial=True, context={"request": FakeRequest(user)}
+        )
         task_serializer.is_valid(raise_exception=True)
 
         with pytest.raises(rest_framework.exceptions.ValidationError):

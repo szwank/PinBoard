@@ -30,6 +30,7 @@ class TestTaskViewSet:
         data = {
             "title": "This is nice title",
             "description": "Boring description",
+            "epic_id": None,
         }
         client.force_authenticate(user)
         response = client.post(reverse("tasks:task-list"), data=data)
@@ -38,6 +39,24 @@ class TestTaskViewSet:
         assert response.data["title"] == data["title"]
         assert response.data["description"] == data["description"]
         assert response.data["status"] == Task.StatusType.OPENED
+        assert response.data["user"] == UserSerializer(user).data
+
+    def test_create_task_with_epic(self, client, user):
+        """Verify creation of task with epic"""
+        epic = EpicFactory.create_epic(user=user)
+        data = {
+            "title": "This is nice title",
+            "description": "Boring description",
+            "epic_id": epic.id,
+        }
+        client.force_authenticate(user)
+        response = client.post(reverse("tasks:task-list"), data=data)
+
+        assert response.status_code == HTTPStatus.CREATED, response.data
+        assert response.data["title"] == data["title"]
+        assert response.data["description"] == data["description"]
+        assert response.data["status"] == Task.StatusType.OPENED
+        assert response.data["epic"]["id"] == epic.id
         assert response.data["user"] == UserSerializer(user).data
 
     def test_anonymous_cannot_create_task(self, client, user):
