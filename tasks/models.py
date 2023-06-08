@@ -39,3 +39,6 @@ class Epic(DatesModelMixin):
         "users.User", on_delete=models.DO_NOTHING, related_name="user_epics"
     )
     title = models.CharField(max_length=100)
+
+    def __str__(self):
+        return str(self.title)
