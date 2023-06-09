@@ -35,7 +35,7 @@ class User(AbstractUser):
     sex = models.CharField(max_length=6, choices=SexType.choices, blank=False)
     is_active = models.BooleanField(
         _("active"),
-        default=False,
+        default=True,
         help_text=_(
             "Designates whether this user should be treated as active. "
             "Unselect this instead of deleting accounts."
