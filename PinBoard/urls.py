@@ -54,10 +54,10 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
-urlpatterns = [  # todo: remove re_path
-    re_path("admin/", admin.site.urls),
-    re_path("api-auth/", include("rest_framework.urls")),
-    re_path("", include("core.urls")),
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("api-auth/", include("rest_framework.urls")),
+    path("", include("core.urls")),
     re_path(
         r"^swagger(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),
@@ -68,7 +68,7 @@ urlpatterns = [  # todo: remove re_path
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
-    re_path(
+    path(
         "api/",
         include(
             [
