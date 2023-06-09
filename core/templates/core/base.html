@@ -49,6 +49,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'rest_framework:login' %}">Sign In</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'core:new_account' %}">Create account</a>
+                        </li>
                     {% endif %}
                 </ul>
                 {% if user.is_authenticated %}
@@ -69,6 +72,8 @@
             {% endblock %}
         {% else %}
             Welcome Guest
+            {% block new_account %}
+            {% endblock %}
         {% endif %}
     </div>
 {% endblock %}

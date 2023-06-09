@@ -1,0 +1,12 @@
+{% extends "core/base.html" %}
+
+{% load rest_framework %}
+
+{% block new_account %}
+    <h2>Create user</h2>
+    <form action="{% url 'core:new_account' %}" method="POST">
+            {% csrf_token %}
+            {% render_form serializer %}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

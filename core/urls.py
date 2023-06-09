@@ -12,6 +12,9 @@ from tasks.views import (
     EditEpic,
     EditTask,
 )
+from users.views import (
+    NewAccount,
+)
 
 app_name = "core"
 
@@ -22,4 +25,5 @@ urlpatterns = [
     path("task/create/", CreateTask.as_view(), name="create_task"),
     path("epic/edit/<int:pk>", EditEpic.as_view(), name="edit_epic"),
     path("epic/create/", CreateEpic.as_view(), name="create_epic"),
+    path("new_account/", NewAccount.as_view(), name="new_account"),
 ]
