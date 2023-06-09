@@ -39,17 +39,17 @@ from tasks.serializers import (
 class TasksViewSet(ModelViewSet):
     """Operate on user tasks"""
 
+    serializer_class = TaskSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    queryset = Task.objects.all()
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = TaskFilter
+
     def get_serializer_class(self):
         if self.action == "create":
             return NewTaskSerializer
         else:
             return super().get_serializer_class()
-
-    serializer_class = TaskSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    queryset = Task.objects.all()
-    filter_backends = (filters.DjangoFilterBackend,)
-    filterset_class = TaskFilter
 
     def get_queryset(self):
         """Return user Tasks"""
