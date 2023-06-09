@@ -31,11 +31,11 @@ WORKDIR $APP_DIR
 # coppy installed dependencies from "build image"
 COPY --from=builder /install /usr/local
 
-# copy project
-COPY . .
-
 # create directory for static files
 RUN mkdir $APP_DIR/staticfiles
+
+# copy project
+COPY . .
 
 # create the app user and make him the owner of workdir
 RUN groupadd --gid 1000 app \
