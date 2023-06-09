@@ -7,8 +7,9 @@ from django.core.management import (
 @pytest.mark.django_db
 class TestCommandCreatedefaultsuperuser:
     def test_creating_super_user(self, user_class):
-        """Verify creation of super user"""
+        """Verify creation of superuser"""
         call_command("createdefaultsuperuser")
+
         user = user_class.objects.filter(username="admin").first()
 
         assert user.is_active is True
