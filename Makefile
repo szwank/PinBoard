@@ -19,7 +19,7 @@ install_dev: start_services
 	@echo "Migrating database"
 	python manage.py migrate --settings PinBoard.settings.dev
 
-run_dev: start_services
+run_dev: install_dev
 	python manage.py runserver --settings PinBoard.settings.dev
 
 run_prod: start_services
