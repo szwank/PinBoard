@@ -1,0 +1,137 @@
+[
+  {
+    "model": "users.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$HdyvFaAuX1JzWj0auJQ4ZW$MS3g++zpnYaTBWf8WQxRDdmtwNEqTHTMkSCuUIiOAqU=",
+      "last_login": "2023-06-09T09:06:16.249Z",
+      "is_superuser": true,
+      "username": "admin",
+      "is_staff": true,
+      "date_joined": "2023-06-06T19:52:29.503Z",
+      "email": "admin@admin.com",
+      "first_name": "Piotrus",
+      "last_name": "Pan",
+      "sex": "male",
+      "is_active": true,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$mgyhZV9vZRHMMiOJSEKm6R$Dfzxe/u3hCz1dWP2EJCy9yq7VuUiVl4z6O/muWzJSEQ=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user",
+      "is_staff": false,
+      "date_joined": "2023-06-06T20:48:18Z",
+      "email": "user@example.com",
+      "first_name": "user_first_name",
+      "last_name": "user_last_name",
+      "sex": "male",
+      "is_active": true,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+    {
+    "model": "users.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$D8U3tsrmAjL4K5PmdiWWFt$GAeLKwS7LkCEEJ2QTNdQO6/uMneULQy23izWAknk7KM=",
+      "last_login": "2023-06-09T09:22:46.034Z",
+      "is_superuser": true,
+      "username": "admin",
+      "is_staff": true,
+      "date_joined": "2023-06-06T19:52:29.503Z",
+      "email": "admin@admin.com",
+      "first_name": "Piotrus",
+      "last_name": "Pan",
+      "sex": "male",
+      "is_active": true,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$mgyhZV9vZRHMMiOJSEKm6R$Dfzxe/u3hCz1dWP2EJCy9yq7VuUiVl4z6O/muWzJSEQ=",
+      "last_login": "2023-06-09T09:23:42.435Z",
+      "is_superuser": false,
+      "username": "user",
+      "is_staff": false,
+      "date_joined": "2023-06-06T20:48:18Z",
+      "email": "user@example.com",
+      "first_name": "user_first_name",
+      "last_name": "user_last_name",
+      "sex": "male",
+      "is_active": true,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 1,
+    "fields": {
+      "created_date": "2023-06-09T09:24:35.236Z",
+      "modified_date": "2023-06-09T09:24:35.236Z",
+      "user": 4,
+      "title": "Go shopping",
+      "description": "Shopping list: ....",
+      "status": "Opened",
+      "epic": 2
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 2,
+    "fields": {
+      "created_date": "2023-06-09T09:25:42.543Z",
+      "modified_date": "2023-06-09T09:25:42.543Z",
+      "user": 4,
+      "title": "Pay bills",
+      "description": "Internet\r\nElektricity",
+      "status": "Opened",
+      "epic": 2
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 3,
+    "fields": {
+      "created_date": "2023-06-09T09:26:56.624Z",
+      "modified_date": "2023-06-09T09:26:56.624Z",
+      "user": 4,
+      "title": "Help Amber with math tasks",
+      "description": "Amber have trouble with math task. She need to prepare to an exam.",
+      "status": "Opened",
+      "epic": 1
+    }
+  },
+  {
+    "model": "tasks.epic",
+    "pk": 1,
+    "fields": {
+      "created_date": "2023-06-09T09:24:05.714Z",
+      "modified_date": "2023-06-09T09:24:05.714Z",
+      "user": 4,
+      "title": "Kids"
+    }
+  },
+  {
+    "model": "tasks.epic",
+    "pk": 2,
+    "fields": {
+      "created_date": "2023-06-09T09:24:15.622Z",
+      "modified_date": "2023-06-09T09:24:15.622Z",
+      "user": 4,
+      "title": "House"
+    }
+  }
+]

@@ -31,6 +31,7 @@ services:
       python manage.py collectstatic --no-input &&
       python manage.py migrate --settings PinBoard.settings.dev &&
       python manage.py createdefaultsuperuser --settings PinBoard.settings.dev &&
+      python manage.py loaddata init_data.json --settings PinBoard.settings.dev &&
       gunicorn PinBoard.wsgi:application -w 2 --bind 0.0.0.0:${APP_PORT}"
     volumes:
       - static_volume:${APP_DIR}/staticfiles
