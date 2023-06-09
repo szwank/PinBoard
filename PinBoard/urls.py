@@ -25,7 +25,11 @@ from django.contrib import (
 )
 from django.urls import (
     include,
+    path,
     re_path,
+)
+from django.views.generic import (
+    RedirectView,
 )
 from drf_yasg import (
     openapi,
@@ -50,7 +54,7 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
-urlpatterns = [
+urlpatterns = [  # todo: remove re_path
     re_path("admin/", admin.site.urls),
     re_path("api-auth/", include("rest_framework.urls")),
     re_path("", include("core.urls")),
@@ -73,7 +77,5 @@ urlpatterns = [
             ]
         ),
     ),
-    path(
-        r"^favicon\.ico$", RedirectView.as_view(url="/staticfiles/images/favicon.ico")
-    ),
+    path(r"favicon.ico", RedirectView.as_view(url="/staticfiles/images/favicon.ico")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
