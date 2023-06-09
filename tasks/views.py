@@ -88,6 +88,7 @@ class EditTask(GenericAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "tasks/edit_task.html"
     serializer_class = TaskSerializer
+    swagger_schema = None
 
     def get(self, request, pk):
         task = get_object_or_404(Task, pk=pk)
@@ -107,6 +108,7 @@ class CreateTask(GenericAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "tasks/create_task.html"
     serializer_class = NewTaskSerializer
+    swagger_schema = None
 
     def get(self, request):
         serializer = self.get_serializer()
@@ -124,6 +126,7 @@ class EditEpic(GenericAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "tasks/edit_epic.html"
     serializer_class = EpicSerializer
+    swagger_schema = None
 
     def get(self, request, pk):
         epic = get_object_or_404(Epic, pk=pk)
@@ -143,6 +146,7 @@ class CreateEpic(GenericAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "tasks/create_epic.html"
     serializer_class = EpicSerializer
+    swagger_schema = None
 
     def get(self, request):
         serializer = self.get_serializer()
