@@ -9,9 +9,13 @@ User = get_user_model()
 
 
 class Command(BaseCommand):
-    """"""
+    """
+    Create default superuser for application.
 
-    help = "Create default superuser."
+    Use only in the development environment as this is not secure.
+    """
+
+    help = "Create default superuser. The user username: admin and password: admin"
 
     def handle(self, *args, **options):
         if User.objects.filter(username="admin").first():
