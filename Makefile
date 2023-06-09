@@ -13,7 +13,7 @@ help:
 
 start_services:
 	@echo "Starting services"
-	docker-compose up -d
+	docker-compose up -d postgres
 
 install_dev: start_services
 	@echo "Migrating database"
