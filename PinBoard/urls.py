@@ -73,4 +73,7 @@ urlpatterns = [
             ]
         ),
     ),
+    path(
+        r"^favicon\.ico$", RedirectView.as_view(url="/staticfiles/images/favicon.ico")
+    ),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
