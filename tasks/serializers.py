@@ -7,9 +7,6 @@ from django.utils.translation import (
 from rest_framework import (
     serializers,
 )
-from rest_framework.fields import (
-    CurrentUserDefault,
-)
 
 from tasks.models import (
     Epic,
