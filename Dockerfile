@@ -46,5 +46,10 @@ RUN groupadd --gid 1000 app \
 # change to the app user
 USER app
 
+# convert end of line in entrypoint.sh to linux. This is very important as the file
+# with wrong end lines coding would not be visible. Additionally some of the editors
+# change end of line coding automatically
+RUN sed -i 's/\r$//' entrypoint.sh
+
 # run entrypoint.sh
 ENTRYPOINT ["./entrypoint.sh"]
